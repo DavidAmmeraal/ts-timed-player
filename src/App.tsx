@@ -1,14 +1,10 @@
 import * as React from 'react';
 
-import IncrementButtonContainer from './components/IncrementButtonContainer';
-import CountersValueContainer from './components/CountersValueContainer';
-import ToggleRunButtonContainer from './components/ToggleRunButtonContainer';
+import ToggleRunButton from './components/ToggleRunButton';
 
 const App: React.SFC = () => (
   <div>
-    <CountersValueContainer />
-    <IncrementButtonContainer />
-    <ToggleRunButtonContainer />
+    <ToggleRunButton />
   </div>
 );
 

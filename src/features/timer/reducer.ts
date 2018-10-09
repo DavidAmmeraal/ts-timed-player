@@ -26,18 +26,18 @@ export default (state: TimerState = defaultState, action: TimerAction) => {
     case TICK:
       return {
         ...state,
-        time: state.time + (state.rate * action.payload),
+        time: state.time + state.rate * action.payload,
       };
-    case SET_RATE: 
+    case SET_RATE:
       return {
         ...state,
-        rate: action.payload
-      }
+        rate: action.payload,
+      };
     case SET_TIME:
       return {
         ...state,
-        time: action.payload
-      }
+        time: action.payload,
+      };
     default:
       return state;
   }

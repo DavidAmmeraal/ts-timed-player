@@ -1,12 +1,21 @@
-import * as React from 'react';
+import Types from 'Types';
 
-interface IToggleRunButtonProps {
-  onClick: () => any;
-  running: boolean;
-}
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-const ToggleRunButton: React.SFC<IToggleRunButtonProps> = ({ onClick, running }) => (
-  <button onClick={onClick}>{running ? 'Stop' : 'Start'}</button>
-);
+import { timerSelectors, TimerAction } from '../features/timer';
+import { toggle } from '../features/timer/actions';
+import PlayButton from './PlayButton';
 
-export default ToggleRunButton;
+const mapDispatchToProps = (dispatch: Dispatch<TimerAction>) => ({
+  onClick: () => dispatch(toggle()),
+});
+
+const mapStateToProps = (state: Types.RootState) => ({
+  running: timerSelectors.getRunning(state.timer),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PlayButton);

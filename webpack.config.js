@@ -1,29 +1,19 @@
 const path = require('path');
-const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const IgnoreNotFoundExportPlugin = require('./util/ignore-not-found-export-plugin.js');
 
-const dev = process.env.NODE_ENV !== 'production' && process.argv.indexOf('-p') === -1;
+const env = process.env.NODE_ENV || 'development';
 
-const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
+const mergeConfig = env === 'production' ? require('./webpack.production') : require('./webpack.development');
+
+const htmlWebpackPlugin = new HTMLWebpackPlugin({
   template: path.join(__dirname, '/src/index.html'),
   filename: 'index.html',
   inject: 'body',
 });
 
-const DefinePluginConfig = new webpack.DefinePlugin({
-  'process.env.NODE_ENV': JSON.stringify('production'),
-});
+const src = path.resolve(__dirname, 'src');
 
-module.exports = {
-  devServer: {
-    host: 'localhost',
-    port: '3000',
-    hot: true,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  },
+module.exports = mergeConfig({
   entry: ['react-hot-loader/patch', path.join(__dirname, '/src/index.tsx')],
   module: {
     rules: [
@@ -35,7 +25,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        loader: 'babel-loader',
+        loader: 'babel-loader!ts-loader'
       },
       {
         test: /\.js$/,
@@ -70,18 +60,8 @@ module.exports = {
     filename: 'index.js',
     path: path.join(__dirname, '/build'),
   },
-  mode: dev ? 'development' : 'production',
-  optimization: !dev
-    ? {
-      minimize: true,
-    }
-    : {},
-  plugins: dev
-    ? [
-      HTMLWebpackPluginConfig,
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin(),
-      new IgnoreNotFoundExportPlugin(),
-    ]
-    : [HTMLWebpackPluginConfig, DefinePluginConfig],
-};
+  mode: env,
+  plugins: [
+    htmlWebpackPlugin,
+  ]
+});
