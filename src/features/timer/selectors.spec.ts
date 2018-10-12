@@ -31,6 +31,6 @@ describe('selectors', () => {
             time
         }
 
-        expect(selectors.getTime(state)).toBe(time);
+        expect(selectors.getTimeMs(state)).toBe(time);
     });
 })

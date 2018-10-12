@@ -1,14 +1,13 @@
 import React from 'react';
-import { formatToSeconds, IformatToSecondsArgs } from 'util/time';
+import { FormattedTime } from 'util/time';
 
-interface ITimeDisplayProps extends IformatToSecondsArgs {};
-const TimeDisplay: React.SFC<ITimeDisplayProps> = (props) => {
-    const timeStr = formatToSeconds(props);
-    return (
-        <React.Fragment>
-            {timeStr}
-        </React.Fragment>
-    );
+interface ITimeDisplayProps {
+  time: number;
+  format?: string;
+}
+
+const TimeDisplay: React.SFC<ITimeDisplayProps> = ({ time, format = 'HH:mm:ss.SSS' }) => {
+  return <FormattedTime time={time} format={format} />;
 };
 
 export default TimeDisplay;
