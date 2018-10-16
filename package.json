@@ -59,6 +59,7 @@
     "@types/react-dom": "^16.0.7",
     "@types/react-redux": "^6.0.9",
     "@types/webpack-env": "^1.13.6",
+    "immutable": "^3.8.2",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "numeral": "^2.0.6",

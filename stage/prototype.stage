@@ -1,0 +1,10 @@
+{
+    tracks: {
+        entities: {
+            tracks: {
+                ids: [],
+                byId: {}
+            }
+        }
+    }
+}
