@@ -3,6 +3,17 @@ export interface Entity {
 }
 
 export interface EntitiesContainer {
-    byId: Map<string, Entity>;
+    byId: {
+        [key:string]: Entity
+    },
     ids: string[],
 }
+
+const defaultEntitiesContainerProps: EntitiesContainer = {
+    byId: {},
+    ids: []
+}
+
+export const createEntitiesContainer = () => ({
+    ...defaultEntitiesContainerProps,
+});

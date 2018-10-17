@@ -1,27 +1,50 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
-import { EntitiesContainer } from './models';
+import { EntitiesContainer, createEntitiesContainer } from './models';
 import { CREATE, UPDATE, DELETE } from './constants';
-import { Map } from 'immutable';
+import { pipe, unless, has, lensProp, set, lensPath, over, union } from 'ramda';
 
 export type EntitiesAction = ActionType<typeof actions>;
+type CreateAction = ActionType<typeof actions.createEntityAction>;
 
-export type EntitiesState = Map<string, EntitiesContainer>;
-export const defaultState: EntitiesState = Map<string, EntitiesContainer>();
+export interface EntitiesState {
+    [key: string]: EntitiesContainer,
+}
+export const defaultState: EntitiesState = {};
 
-export default (state: EntitiesState = defaultState, action: EntitiesAction) => {
+/**
+ * Handles entities/CREATE actions. Creates EntitiesContainer for entity type if it doesn't yet. 
+ * 
+ * @param state Base state.
+ * @param action entities/CREATE action to be handled.
+ * @returns new state.
+ */
+const handleCreate = (state:EntitiesState, { payload: { entityType, entity }}:CreateAction) => pipe
+    <EntitiesState, EntitiesState, EntitiesState, EntitiesState>(
+    unless(
+        has(entityType), 
+        set(lensProp(entityType), createEntitiesContainer()),
+    ),
+    set(lensPath([entityType, 'byId', entity.id]), entity),
+    over(lensPath([entityType, 'ids']), union([entity.id])),
+)(state);
+
+/**
+ * Handles and reduces actions into state. 
+ * 
+ * @param state The current state.
+ * @param action The action to be handled.
+ */
+const reducer = (state: EntitiesState = defaultState, action: EntitiesAction) => {
     switch (action.type) {
         case CREATE:
-            return state
-                .setIn([action.payload.entityType, 'ids'], action.payload.entity.id)
-                .setIn([action.payload.entityType, 'byId', action.payload.entity.id], action.payload.entity);
+            return handleCreate(state, action);
         case UPDATE:
-            return state
-                .mergeIn([action.payload.entityType, 'byId', action.payload.id], action.payload.props)
+            return state;
         case DELETE:
-            return state
-                .deleteIn
+            return state;
         default:
             return state;
     }
 };
+export default reducer;
