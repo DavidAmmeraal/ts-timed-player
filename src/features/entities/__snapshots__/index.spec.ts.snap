@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entities feature module should expose according to snapshot 1`] = `
+Object {
+  "entitiesActions": Object {
+    "createEntityAction": [Function],
+    "deleteEntityAction": [Function],
+    "updateEntityAction": [Function],
+  },
+  "entitiesReducer": [Function],
+}
+`;

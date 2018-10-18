@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createEntitiesContainer() should create a new empty entities container. 1`] = `
+Object {
+  "byId": Object {},
+  "ids": Array [],
+}
+`;

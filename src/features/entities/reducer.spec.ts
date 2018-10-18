@@ -8,51 +8,126 @@ const initialState = reducer(undefined, {} as any);
 
 describe('models reducer', () => {
     it('should have empty initial state', () => {
-        expect(initialState).toMatchSnapshot();
+        expect(initialState).toEqual({});
     })
     describe('handling CREATE action', () => {
         it('should create a new entity of given type, and create a new type container if it does not exist.', () => {
-            const entity = { id: '123', foo: 'bar' };
+            const id = '123';
+            const entity = { id, foo: 'bar' };
             const action = actions.createEntityAction('SuperCoolEntity', entity);
-            const state = reducer(undefined, action);
-            expect(state).toMatchSnapshot();
+            const state = reducer(initialState, action);
+            expect(state.SuperCoolEntity.byId).toHaveProperty(id, entity);
+            expect(state.SuperCoolEntity.ids).toContain(id);
         })
 
         it('should create a new entity of given type and add it to the existing type container.', () => {
-            const entity1 = { id: '123', foo: 'bar' };
-            const action1 = actions.createEntityAction('SuperCoolEntity', entity1);
-            const state = reducer(undefined, action1);
+            const idA = '123';
+            const entityA = { id: idA, foo: 'bar' };
+            const actionA = actions.createEntityAction('SuperCoolEntity', entityA);
+            const state = reducer(initialState, actionA);
 
-            const entity2 = { id: '432', bar: 'foo' };
-            const action2 = actions.createEntityAction('SuperCoolEntity', entity2);
+            const idB = '321';
+            const entityB = { id: idB, bar: 'foo' };
+            const actionB = actions.createEntityAction('SuperCoolEntity', entityB);
 
-            const finalState = reducer(state, action2);
-            expect(finalState).toMatchSnapshot();
+            const finalState = reducer(state, actionB);
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(idA, entityA);
+            expect(finalState.SuperCoolEntity.ids).toContain(idA);
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(idB, entityB);
+            expect(finalState.SuperCoolEntity.ids).toContain(idB);
         })
 
         it('should create a new entity of new type and add it next to other types.', () => {
-            const superCoolEntity = { id: '123', foo: 'bar' };
+            const superCoolId = '123';
+            const superCoolEntity = { id: superCoolId, foo: 'bar' };
             const superCoolAction = actions.createEntityAction('SuperCoolEntity', superCoolEntity);
-            const state = reducer(undefined, superCoolAction);
+            const state = reducer(initialState, superCoolAction);
 
-            const superLameEntity = { id: '432', bar: 'foo' };
+            const superLameId = '432'
+            const superLameEntity = { id: superLameId, bar: 'foo' };
             const superLameAction = actions.createEntityAction('SuperLameEntity', superLameEntity);
 
             const finalState = reducer(state, superLameAction);
-            expect(finalState).toMatchSnapshot();
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(superCoolId, superCoolEntity);
+            expect(finalState.SuperCoolEntity.ids).toContain(superCoolId);
+
+            expect(finalState.SuperLameEntity.byId).toHaveProperty(superLameId, superLameEntity);
+            expect(finalState.SuperLameEntity.ids).toContain(superLameId);
         })
 
         it('should overwrite existing entities of same type if it has same id.', () => {
-            const superCoolEntity = { id: '123', foo: 'bar', bar: 'foo' };
-            const superCoolAction = actions.createEntityAction('SuperCoolEntity', superCoolEntity);
-            const state = reducer(undefined, superCoolAction);
+            const id = '123';
+            const entityA = { id, foo: 'bar', bar: 'foo' };
+            const actionA = actions.createEntityAction('SuperCoolEntity', entityA);
+            const state = reducer(initialState, actionA);
 
-            const superCoolEntity2 = { id: '123', foo: 'foo' }
-            const superCoolAction2 = actions.createEntityAction('SuperCoolEntity', superCoolEntity2);
+            const entityB = { id, foo: 'foo' }
+            const actionB = actions.createEntityAction('SuperCoolEntity', entityB);
 
-            const finalState = reducer(state, superCoolAction2);
-            expect(finalState).toMatchSnapshot();
+            const finalState = reducer(state, actionB);
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(id, entityB);
         })
     })
     
+    describe('handling UPDATE action', () => {
+        let state = { ...initialState };
+        const idA = '123';
+        const idB = '321';
+        const entityA = { id: idA, foo: 'bar', bar: 'foo' };
+        const entityB = { id: idB, foo: 'bar', bar: 'foo' };
+
+        beforeEach(() => {
+            const createActionA = actions.createEntityAction('SuperCoolEntity', entityA);
+            const stateA = reducer(initialState, createActionA);
+            const createActionB = actions.createEntityAction('SuperCoolEntity', entityB);
+            state = reducer(stateA, createActionB);
+        })
+
+        it('should update existing entity of given type (only) with given id.', () => {
+            const newProps = { foo: 'foo' }
+            const updateAction = actions.updateEntityAction('SuperCoolEntity', idA, newProps);
+
+            const finalState = reducer(state, updateAction);
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(idA, {...entityA, ...newProps});
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(idB, entityB);
+        })
+
+        it('should do nothing for non-existing id.', () => {
+            const newProps = { foo: 'foo' }
+            const updateAction = actions.updateEntityAction('SuperCoolEntity', '124', newProps);
+
+            const finalState = reducer(state, updateAction);
+            expect(finalState).toEqual(state);
+        })
+    });
+   
+    describe('handling DELETE action', () => {
+        let state = { ...initialState };
+        const idA = '123';
+        const idB = '321';
+        const entityA = { id: idA, foo: 'bar', bar: 'foo' };
+        const entityB = { id: idB, foo: 'bar', bar: 'foo' };
+
+        beforeEach(() => {
+            const createActionA = actions.createEntityAction('SuperCoolEntity', entityA);
+            const stateA = reducer(initialState, createActionA);
+            const createActionB = actions.createEntityAction('SuperCoolEntity', entityB);
+            state = reducer(stateA, createActionB);
+        })
+
+        it('should delete an existing entity of given type with given id.', () => {
+            const deleteAction = actions.deleteEntityAction('SuperCoolEntity', idA);
+            const finalState = reducer(state, deleteAction);
+            expect(finalState.SuperCoolEntity.byId).not.toHaveProperty(idA);
+            expect(finalState.SuperCoolEntity.ids).not.toContain(idA);
+            expect(finalState.SuperCoolEntity.byId).toHaveProperty(idB, entityB);
+            expect(finalState.SuperCoolEntity.ids).toContain(idB);
+        })
+
+        it('should do nothing for non-existing id.', () => {
+            const updateAction = actions.deleteEntityAction('SuperCoolEntity', '124');
+            const finalState = reducer(state, updateAction);
+            expect(finalState).toEqual(state);
+        })
+    });
 });

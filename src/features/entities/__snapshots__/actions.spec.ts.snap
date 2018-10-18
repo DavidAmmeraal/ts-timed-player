@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createEntityAction() should create a new CREATE action. 1`] = `
+Object {
+  "meta": undefined,
+  "payload": Object {
+    "entity": Object {
+      "id": "123",
+    },
+    "entityType": "X",
+  },
+  "type": "entities/CREATE",
+}
+`;
+
+exports[`deleteEntityAction() should create a new DELETE action. 1`] = `
+Object {
+  "meta": undefined,
+  "payload": Object {
+    "entityType": "X",
+    "id": "123",
+  },
+  "type": "entities/DELETE",
+}
+`;
+
+exports[`updateEntityAction() should create a new UPDATE action. 1`] = `
+Object {
+  "meta": undefined,
+  "payload": Object {
+    "entityType": "X",
+    "id": "123",
+    "props": Object {
+      "foo": "bar",
+    },
+  },
+  "type": "entities/UPDATE",
+}
+`;
