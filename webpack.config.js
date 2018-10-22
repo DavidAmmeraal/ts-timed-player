@@ -52,10 +52,6 @@ module.exports = mergeConfig({
   },
   resolve: {
     extensions: ['.js', '.jsx', '.tsx', '.ts'],
-    alias: {
-      '@services': path.resolve(src, 'services'),
-      'util': path.resolve(src, 'util'),
-    },
   },
   output: {
     filename: 'index.js',

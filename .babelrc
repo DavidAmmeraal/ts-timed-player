@@ -1,3 +1,27 @@
 {
-  "presets": ["@babel/react", "@babel/typescript", ["@babel/env", { "modules": false }]]
+  "presets": [
+    "@babel/react",
+    "@babel/typescript",
+    [
+      "@babel/env",
+      {
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "services": "./src/services",
+          "util": "./src/util",
+          "features": "./src/features"
+        }
+      }
+    ]
+  ]
 }

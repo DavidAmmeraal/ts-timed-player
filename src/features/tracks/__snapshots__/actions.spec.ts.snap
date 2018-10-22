@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createTrackAction() should create a new CREATE action. 1`] = `
+Object {
+  "meta": undefined,
+  "payload": Object {
+    "entity": Object {
+      "end": 1970-01-01T00:00:00.003Z,
+      "id": "123",
+      "start": 1970-01-01T00:00:00.001Z,
+    },
+    "entityType": "Track",
+  },
+  "type": "entities/CREATE",
+}
+`;
+
+exports[`deleteTrackAction() should create a new DELETE action. 1`] = `
+Object {
+  "meta": undefined,
+  "payload": Object {
+    "entityType": "Track",
+    "id": "123",
+  },
+  "type": "entities/DELETE",
+}
+`;
+
+exports[`updateTrackAction() should create a new UPDATE action. 1`] = `
+Object {
+  "meta": undefined,
+  "payload": Object {
+    "entityType": "Track",
+    "id": "123",
+    "props": Object {
+      "start": 1970-01-01T00:00:00.002Z,
+    },
+  },
+  "type": "entities/UPDATE",
+}
+`;

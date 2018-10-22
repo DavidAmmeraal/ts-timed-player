@@ -1,11 +1,7 @@
-import { action } from 'typesafe-actions';
-
-import { CREATE_TRACK, UPDATE_TRACK, DELETE_TRACK } from './constants';
+import { TRACK_ENTITY_NAME } from './constants';
+import { entitiesActions } from 'features/entities';
 import { ITrack } from './models';
 
-export const createTrack = (track:ITrackEntity) => action(CREATE_TRACK, track);
-export const updateTrack = (id:string, track: Partial<ITrack>) => action(UPDATE_TRACK, {
-    id,
-    track,
-});
-export const deleteTrack = (id:string) => action(DELETE_TRACK, id);
+export const createTrackAction = (track:ITrack) => entitiesActions.createEntityAction(TRACK_ENTITY_NAME, track);
+export const updateTrackAction = (id:string, props:Partial<ITrack>) => entitiesActions.updateEntityAction(TRACK_ENTITY_NAME, id, props);
+export const deleteTrackAction = (id:string) => entitiesActions.deleteEntityAction(TRACK_ENTITY_NAME, id);

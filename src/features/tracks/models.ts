@@ -1,4 +1,4 @@
-import { Entity } from 'util/entities';
+import { Entity } from 'features/entities';
 
 export interface ITrack extends Entity {
     start: Date,
