@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatToTimerTime } from 'util/number/fp';
+import { formatToTimerTime } from 'util/time';
 import { pipe, add } from 'ramda';
 
 interface ITimeDisplayProps {
@@ -7,14 +7,10 @@ interface ITimeDisplayProps {
   offset?: number;
 }
 
-const TimeDisplay: React.SFC<ITimeDisplayProps> = ({
-  time,
-  offset = 0,
-}) =>
+const TimeDisplay: React.SFC<ITimeDisplayProps> = ({ time, offset = 0 }) =>
   pipe(
     add(offset),
-    t => t / 10,
-    formatNumber(formatStr),
+    formatToTimerTime,
     str => <>{str}</>,
   )(time);
 
