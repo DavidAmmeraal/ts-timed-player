@@ -1,36 +1,17 @@
-const mockFormat = jest.fn().mockReturnThis();
-const mockUtc = jest.fn().mockReturnThis();
-const mockMoment = jest.fn(() => ({
-    format: mockFormat,
-    utc: mockUtc,
-}));
-
-jest.mock('moment', () => ({
+/* jest.mock('date-fns', () => ({
     __esModule: true,
     namedExport: jest.fn(),
     default: mockMoment,
 }));
+ */
+const mockFormat = jest.fn();
+jest.mock('date-fns/fp', () => ({
+    format: mockFormat,
+}))
+import { getOffset } from './time';
 
-import { formatDateFromNumber, formatDate } from './time';
-
-describe('formatNumber', () => {    
-    it('should call format input with moment', () => {
-        const n = 123456;
-        const formatStr = '+0,0';
-        formatDateFromNumber(n, formatStr);
-        expect(mockUtc).toHaveBeenCalled();
-        expect(mockMoment).toHaveBeenLastCalledWith(n);
-        expect(mockFormat).toHaveBeenCalledWith(formatStr);
-    })
-})
-
-describe('formatDate', () => {
-    it('should call format input with moment', () => {
-        const n = new Date(123456);
-        const formatStr = '+0,0';
-        formatDate(n, formatStr);
-        expect(mockUtc).toHaveBeenCalled();
-        expect(mockMoment).toHaveBeenLastCalledWith(n);
-        expect(mockFormat).toHaveBeenCalledWith(formatStr);
-    })
+describe('getOffset()', () => {
+    it('should return the default system timezone offset from UTC in milliseconds', () => {
+        expect(getOffset()).toBe(new Date().getTimezoneOffset() * 60000);
+    });
 })

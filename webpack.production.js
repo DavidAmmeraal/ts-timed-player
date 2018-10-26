@@ -10,6 +10,9 @@ module.exports = (base) => ({
   ...base,
   optimization: {
     minimize: true,
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   devtool: 'source-map',
   plugins: [

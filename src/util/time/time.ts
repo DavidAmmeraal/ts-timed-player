@@ -1,12 +1,5 @@
-import moment from 'moment';
+const offsetBase = new Date();
 
-export const formatDateFromNumber = (n: number, format: string) => {
-  return moment(n)
-    .utc()
-    .format(format);
-};
-
-export const formatDate = (n: Date, format: string) => {
-  return moment(n)
-    .format(format);
+export const getOffset = (date = offsetBase) => {
+  return date.getTimezoneOffset() * 60000;
 };

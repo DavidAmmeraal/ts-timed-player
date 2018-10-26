@@ -1,22 +1,13 @@
-const mockFormat = jest.fn();
-const mockNumeral = jest.fn(() => ({
-    format: mockFormat,
-}));
+import { formatToTimerTime } from './number';
+import each from 'jest-each';
 
-jest.mock('numeral', () => ({
-    __esModule: true,
-    namedExport: jest.fn(),
-    default: mockNumeral,
-}));
 
-import { formatNumber } from './number';
-
-describe('format', () => {
-    it('should call format input with numeral', () => {
-        const n = 123456;
-        const formatStr = '+0,0';
-        formatNumber(n, formatStr);
-        expect(mockNumeral).toHaveBeenLastCalledWith(n);
-        expect(mockFormat).toHaveBeenCalledWith(formatStr);
-    })
-})
+each([
+    [1234, undefined, '00:00:01.234'],
+    [12345, undefined, '00:00:12.345']
+]).test(
+    'returns the result of adding %d to %d',
+    (a:number, params:{}, expected:string) => {
+        expect(formatToTimerTime(a, params)).toBe(expected);
+    },
+);

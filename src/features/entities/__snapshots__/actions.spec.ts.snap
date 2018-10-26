@@ -5,9 +5,10 @@ Object {
   "meta": undefined,
   "payload": Object {
     "entity": Object {
-      "id": "123",
+      "foo": "bar",
+      "id": "1",
     },
-    "entityType": "X",
+    "entityType": "TestEntity",
   },
   "type": "entities/CREATE",
 }

@@ -1,13 +1,21 @@
 import React from 'react';
-import { FormattedTime } from 'util/time';
+import { formatToTimerTime } from 'util/number/fp';
+import { pipe, add } from 'ramda';
 
 interface ITimeDisplayProps {
   time: number;
-  format?: string;
+  offset?: number;
 }
 
-const TimeDisplay: React.SFC<ITimeDisplayProps> = ({ time, format = 'HH:mm:ss.SSS' }) => {
-  return <FormattedTime time={time} format={format} />;
-};
+const TimeDisplay: React.SFC<ITimeDisplayProps> = ({
+  time,
+  offset = 0,
+}) =>
+  pipe(
+    add(offset),
+    t => t / 10,
+    formatNumber(formatStr),
+    str => <>{str}</>,
+  )(time);
 
 export default TimeDisplay;

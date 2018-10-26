@@ -2,7 +2,7 @@ import * as actions from './actions';
 
 describe('createEntityAction()', () => {
     it('should create a new CREATE action.', () => {
-        const action = actions.createEntityAction('X', { id: '123' });
+        const action = actions.createEntityAction('TestEntity', { id: '1', foo: 'bar' });
         expect(action).toMatchSnapshot();
     })
 });
