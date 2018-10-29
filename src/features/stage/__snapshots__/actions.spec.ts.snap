@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action creators fetchStage async action creator should create request, success and error actions. 1`] = `
+Object {
+  "payload": "https://some.domain.com",
+  "type": "stage/FETCH_STAGE_REQUEST",
+}
+`;
+
+exports[`action creators fetchStage async action creator should create request, success and error actions. 2`] = `
+Object {
+  "payload": [Error: some error],
+  "type": "stage/FETCH_STAGE_ERROR",
+}
+`;
+
+exports[`action creators fetchStage async action creator should create request, success and error actions. 3`] = `
+Object {
+  "payload": Object {
+    "foo": "bar",
+  },
+  "type": "stage/FETCH_STAGE_SUCCESS",
+}
+`;

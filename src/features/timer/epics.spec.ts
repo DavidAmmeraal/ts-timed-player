@@ -3,6 +3,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { ActionsObservable, StateObservable } from 'redux-observable';
 import * as actions from './actions';
 import { toggleFlow } from './epics';
+import services from '../../services';
 
 import reducer from '../../store/reducer';
 import { Subject } from 'rxjs';
@@ -38,6 +39,7 @@ describe('timer flow', () => {
             const state$ = new StateObservable<Types.RootState>(new Subject(), initialState);
             
             const dependencies = {
+                ...services,
                 timer: () => timerStream$
             };
 

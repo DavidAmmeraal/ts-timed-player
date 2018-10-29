@@ -6,27 +6,17 @@
     "configurations": [
       {
         "type": "node",
+        "name": "vscode-jest-tests",
         "request": "launch",
-        "name": "Debug Jest Tests",
-        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest",
         "args": [
-          "--inspect-brk",
-          "${workspaceRoot}/node_modules/.bin/jest",
-          "--runInBand",
           "--config",
-          "${workspaceRoot}/jest.config.json"
+          "${workspaceRoot}/jest.config.json",
+          "--runInBand",
         ],
-        "windows": {
-          "args": [
-            "--inspect-brk",
-            "${workspaceRoot}/node_modules/jest/bin/jest.js",
-            "--runInBand",
-            "--config",
-            "${workspaceRoot}/jest.config.json"          
-          ],
-        },
+        "cwd": "${workspaceFolder}",
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen"
-      },
+      }
     ]
   }
