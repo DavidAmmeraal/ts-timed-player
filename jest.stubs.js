@@ -21,3 +21,4 @@ window.localStorage = {
 Object.values = () => [];
 
 global.fetch = fetch;
+process.env = {};

@@ -19,5 +19,6 @@
   "setupFiles": [
     "./jest.stubs.js"
   ],
-  "setupTestFrameworkScriptFile": "./jest.tests.js"
+  "setupTestFrameworkScriptFile": "./jest.tests.js",
+  "testURL": "https://www.somthing.com/test.html"
 }

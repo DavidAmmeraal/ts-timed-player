@@ -9,6 +9,7 @@ module.exports = (base) => ({
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
+    contentBase: './stage',
   },
   devtool: 'cheap-module-eval-source-map',
   plugins: [

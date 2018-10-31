@@ -1,5 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const DotenvPlugin = require('dotenv-webpack');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -12,6 +13,7 @@ const htmlWebpackPlugin = new HTMLWebpackPlugin({
 });
 
 const src = path.resolve(__dirname, 'src');
+const envFile = `./${env}.env`;
 
 module.exports = mergeConfig({
   entry: ['react-hot-loader/patch', path.join(__dirname, '/src/index.tsx')],
@@ -60,5 +62,8 @@ module.exports = mergeConfig({
   mode: env,
   plugins: [
     htmlWebpackPlugin,
+    new DotenvPlugin({
+      path: envFile
+    })
   ]
 });

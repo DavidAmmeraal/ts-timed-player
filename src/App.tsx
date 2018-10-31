@@ -1,13 +1,13 @@
 import * as React from 'react';
-
-import ToggleRunButton from './components/ToggleRunButton';
-import ConnectedTimeDisplay from './components/ConnectedTimeDisplay';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import getParams from './params';
+import StagePlayer from './components/StagePlayer';
 
 const App: React.SFC = () => (
-  <div>
-    <ToggleRunButton />
-    <ConnectedTimeDisplay />
-  </div>
+  <Provider store={store}>
+    <StagePlayer {...getParams()} />
+  </Provider>
 );
 
 export default App;
