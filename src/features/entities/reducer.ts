@@ -1,3 +1,4 @@
+import Types from 'Types';
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
 import { EntitiesContainer, createEntitiesContainer } from './models';
@@ -76,7 +77,7 @@ const handleDelete = (state: EntitiesState, { payload: { entityType, id } }: Del
  * @param state The current state.
  * @param action The action to be handled.
  */
-const reducer = (state: EntitiesState = defaultState, action: EntitiesAction) => {
+const reducer = (state: EntitiesState = defaultState, action: Types.RootAction) => {
   switch (action.type) {
     case CREATE:
       return handleCreate(state, action);

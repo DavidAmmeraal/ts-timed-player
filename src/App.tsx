@@ -1,13 +1,11 @@
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import getParams from './params';
 import StagePlayer from './components/StagePlayer';
+import { fetchStage } from './fetch-stage';
 
 const App: React.SFC = () => (
-  <Provider store={store}>
-    <StagePlayer {...getParams()} />
-  </Provider>
+  <StagePlayer stage={fetchStage}>
+    <span>A stageplayer child!</span>
+  </StagePlayer>
 );
 
 export default App;

@@ -6,4 +6,4 @@ export const fetchStage = createAsyncAction(
   FETCH_STAGE_REQUEST,
   FETCH_STAGE_SUCCESS,
   FETCH_STAGE_ERROR,
-)<string, {}, Error>();
+)<void, {}, Error>();

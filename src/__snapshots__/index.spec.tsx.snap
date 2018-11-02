@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index.tsx should render the App connected to redux in the #root element of the HTML page 1`] = `
+<div
+  id="root"
+>
+  STAGEPLAYER PLACEHOLDER
+</div>
+`;

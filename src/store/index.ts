@@ -1,2 +1,2 @@
 export { default as rootReducer } from './reducer';
-export { default as store } from './store';
+export { default as configureStore } from './store';
