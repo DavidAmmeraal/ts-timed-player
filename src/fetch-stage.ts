@@ -1,7 +1,7 @@
 import getParams from './params';
-import { fetchWithErrors } from './util/fetch';
+import { fetchWithHttpErrorHandler } from './util/fetch';
 
 export const fetchStage = () =>
-  fetchWithErrors(getParams().stage)
+  fetchWithHttpErrorHandler(getParams().stage)
     .then(response => response.json())
     .then(result => ({ ...result }));

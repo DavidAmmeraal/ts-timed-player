@@ -4,6 +4,8 @@ exports[`index.tsx should render the App connected to redux in the #root element
 <div
   id="root"
 >
-  STAGEPLAYER PLACEHOLDER
+  <span>
+    LOADING
+  </span>
 </div>
 `;

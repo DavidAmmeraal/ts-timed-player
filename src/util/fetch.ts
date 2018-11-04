@@ -1,35 +1,35 @@
-export interface IHTTPError extends Error{
-  response: HTTPErrorResponse;
+export interface IHttpError extends Error{
+  response: HttpErrorResponse;
   code: number,
   name: string,
 }
 
-interface HTTPErrorResponse {
+interface HttpErrorResponse {
   status: number,
   url: string,
   statusText: string,
 }
 
-export class HTTPError extends Error implements IHTTPError {
-  response:HTTPErrorResponse;
+export class HttpError extends Error implements IHttpError {
+  response:HttpErrorResponse;
   code:number;
 
-  constructor(response: HTTPErrorResponse) {
+  constructor(response: HttpErrorResponse) {
     super();
-    this.name = 'HTTPError';
+    this.name = 'HttpError';
     this.response = response;
     this.code = response.status;
     this.message = `${response.status} - ${response.url}: ${response.statusText}`;
   }
 }
 
-export const fetchErrorHandler = (r:Response):Promise<Response> => {
+export const httpErrorHandler = (r:Response):Promise<Response> => {
   if(r.status >= 200 && r.status < 300) {
     return Promise.resolve(r);
   } else {
-    return Promise.reject(new HTTPError(r));
+    return Promise.reject(new HttpError(r));
   }
 }
 
-export const fetchWithErrors = (uri: string, params?: {}) =>
-  fetch(uri, params).then(fetchErrorHandler);
+export const fetchWithHttpErrorHandler = (uri: string, params?: {}) =>
+  fetch(uri, params).then(httpErrorHandler);

@@ -2,7 +2,7 @@
 
 exports[`action creators fetchStage async action creator should create request, success and error actions. 1`] = `
 Object {
-  "payload": "https://some.domain.com",
+  "payload": undefined,
   "type": "stage/FETCH_STAGE_REQUEST",
 }
 `;

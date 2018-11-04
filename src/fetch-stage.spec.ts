@@ -14,11 +14,12 @@ describe('fetchStage', () => {
 
   beforeEach(() => {
     fetchMock.reset();
+    fetchMock.mock(stageUri, stage);
   })
 
   it('should call fetch () with a uri specified in the given params', () => {
     fetchStage().then((result) => {
-      expect(result).toEqual(stage);
+      expect(result).toEqual({'foo': 'bar'});
     })
   });
 
@@ -31,6 +32,7 @@ describe('fetchStage', () => {
 
   it('should throw an error if error is encountered', () => {
     const err = new Error('bad fetching error!');
+    fetchMock.reset();
     fetchMock.get(stageUri, Promise.reject(err));
     fetchStage()
       .then(res => res)
