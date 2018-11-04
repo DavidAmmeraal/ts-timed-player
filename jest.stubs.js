@@ -1,6 +1,5 @@
 // Global/Window object Stubs for Jest
-import fetch from 'jest-fetch-mock';
-
+import fetch from 'node-fetch';
 window.matchMedia = window.matchMedia || function () {
   return {
     matches: false,
@@ -20,5 +19,5 @@ window.localStorage = {
 
 Object.values = () => [];
 
-global.fetch = fetch;
 process.env = {};
+global.fetch = fetch;
