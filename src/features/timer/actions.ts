@@ -1,3 +1,7 @@
+/**
+ * actions.ts
+ * Action creators for timer.
+ */
 import { action } from 'typesafe-actions';
 
 import { TOGGLE, TICK, SET_RATE, SET_TIME } from './constants';

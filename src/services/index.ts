@@ -1,5 +1,8 @@
-import timer from './timer';
+/**
+ * index.ts
+ * services module exports.
+ */
+import { timer } from './timer';
 
-export default {
-  timer,
-};
+export const index = { timer };
+export const services = index;

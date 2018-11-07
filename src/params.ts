@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 
 export interface AppParams {
-  stage: string;
+  stage?: string;
 }
 
 export default (str = location.search) => {

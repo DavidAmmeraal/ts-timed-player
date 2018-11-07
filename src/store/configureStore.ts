@@ -1,12 +1,16 @@
+/**
+ * store.ts
+ * Store for StagePlayer
+ */
 import Types from 'Types';
 
 import { applyMiddleware, createStore, Store } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from './reducer';
-import rootEpic from './epics';
-import services from '../services';
+import { reducer as rootReducer } from './reducer';
+import { epics as rootEpic } from './epics';
+import { services } from '../services/index';
 
 const epicMiddleware = createEpicMiddleware<
   Types.RootAction,
@@ -26,5 +30,3 @@ export function configureStore(initialState: {}): Store<Types.RootState> {
   epicMiddleware.run(rootEpic);
   return store;
 }
-
-export default configureStore;

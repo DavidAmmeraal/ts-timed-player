@@ -1,3 +1,7 @@
+/**
+ * PlayButton.tsx
+ * Displays a playbutton.
+ */
 import * as React from 'react';
 
 interface IPlayButtonProps {
@@ -5,8 +9,6 @@ interface IPlayButtonProps {
   running: boolean;
 }
 
-const PlayButton: React.SFC<IPlayButtonProps> = ({ onClick, running }) => (
+export const PlayButton: React.SFC<IPlayButtonProps> = ({ onClick, running }) => (
   <button onClick={onClick}>{running ? 'Stop' : 'Start'}</button>
 );
-
-export default PlayButton;

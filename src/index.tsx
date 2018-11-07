@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-// react deps
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';

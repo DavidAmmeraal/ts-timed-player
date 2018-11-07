@@ -1,3 +1,7 @@
+/**
+ * reducer.ts
+ * Handles the entities actions.
+ */
 import Types from 'Types';
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
@@ -77,7 +81,7 @@ const handleDelete = (state: EntitiesState, { payload: { entityType, id } }: Del
  * @param state The current state.
  * @param action The action to be handled.
  */
-const reducer = (state: EntitiesState = defaultState, action: Types.RootAction) => {
+export const reducer = (state: EntitiesState = defaultState, action: Types.RootAction) => {
   switch (action.type) {
     case CREATE:
       return handleCreate(state, action);
@@ -89,4 +93,3 @@ const reducer = (state: EntitiesState = defaultState, action: Types.RootAction) 
       return state;
   }
 };
-export default reducer;

@@ -1,3 +1,7 @@
+/**
+ * reducer.ts
+ * Reducer for timer feature.
+ */
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
 import { TOGGLE, TICK, SET_RATE, SET_TIME } from './constants';
@@ -16,7 +20,7 @@ export const defaultState: TimerState = {
   running: false,
 };
 
-export default (state: TimerState = defaultState, action: TimerAction) => {
+export const reducer = (state: TimerState = defaultState, action: TimerAction) => {
   switch (action.type) {
     case TOGGLE:
       return {

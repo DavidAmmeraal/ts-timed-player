@@ -1,11 +1,15 @@
-import React from 'react';
+/**
+ * StagePlayer.tsx
+ * The StagePlayer component.
+ */
+import * as React from 'react';
 
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
-import { configureStore } from '../store';
+import { configureStore } from '~/store/configureStore';
 
-import StagePlayerLayout from './StagePlayerLayout';
-import StagePlayerError from './StagePlayerError';
+import { StagePlayerLayout } from './StagePlayerLayout';
+import { StagePlayerError } from './StagePlayerError';
 
 interface IStagePlayerProps {
   stage: () => Promise<{}>;
@@ -16,7 +20,7 @@ interface IStagePlayerState {
   error?: Error;
 }
 
-class StagePlayer extends React.Component<IStagePlayerProps, IStagePlayerState> {
+export class StagePlayer extends React.Component<IStagePlayerProps, IStagePlayerState> {
   constructor(props: any) {
     super(props);
 
@@ -49,5 +53,3 @@ class StagePlayer extends React.Component<IStagePlayerProps, IStagePlayerState> 
     return <span>LOADING</span>;
   }
 }
-
-export default StagePlayer;

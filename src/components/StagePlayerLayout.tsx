@@ -1,7 +1,20 @@
-import React from 'react';
+/**
+ * StagePlayerLayout.tsx
+ * Renders the layout of the StagePlayer
+ */
+import * as React from 'react';
+import styledComponents from 'styled-components';
 
-interface StagePlayerLayoutProps {}
-const StagePlayerLayout: React.SFC<StagePlayerLayoutProps> = ({ children }) => (
-  <div>{children}</div>
+interface StagePlayerLayoutProps {
+  className?: string;
+}
+
+const component: React.SFC<StagePlayerLayoutProps> = ({ children, className }) => (
+  <section className={className}>
+    <div>{children}</div>
+  </section>
 );
-export default StagePlayerLayout;
+
+export const StagePlayerLayout = styledComponents(component)`
+  background-color: black;
+`;

@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
     "baseUrl": "./src", // enables absolute path imports
+    "rootDirs": [
+      "./src",
+    ],
     "paths": {
+      "~/*": [
+        "./*"
+      ]
       // "redux": ["typings/redux"], // use for redux 3.X
       // in webpack you need to add -> resolve: { alias: { '@src': PATH_TO_SRC } }
     },

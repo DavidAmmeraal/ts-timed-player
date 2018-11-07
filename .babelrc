@@ -19,9 +19,11 @@
         "alias": {
           "services": "./src/services",
           "util": "./src/util",
-          "features": "./src/features"
+          "features": "./src/features",
+          "~": "./src"
         }
-      }
+      },
+      "babel-plugin-styled-components"
     ]
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint:recommended", "tslint-microsoft-contrib", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "arrow-parens": false,
     "arrow-return-shorthand": [false],
@@ -14,12 +14,21 @@
     "no-any": false,
     "no-empty-interface": false,
     "no-import-side-effect": [true],
+    "no-implicit-dependencies": [
+      true,
+      [
+        "~",
+        "Types",
+        "dev",
+      ]
+    ],
     "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
     "no-invalid-this": [true, "check-function-in-method"],
     "no-namespace": false,
     "no-null-keyword": false,
+    "no-relative-imports": false,
     "no-require-imports": false,
-    "no-submodule-imports": [true, "@src", "rxjs"],
+    "no-submodule-imports": [true, "@src", "rxjs", "~"],
     "no-this-assignment": [true, { "allow-destructuring": true }],
     "no-trailing-whitespace": true,
     "object-literal-sort-keys": false,

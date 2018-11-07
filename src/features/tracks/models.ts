@@ -1,6 +1,10 @@
-import { Entity } from 'features/entities';
+/**
+ * models.ts
+ * Contains track models.
+ */
+import { Entity } from '../entities';
 
 export interface ITrack extends Entity {
-    start: Date,
-    end: Date,
+  start: Date;
+  end: Date;
 }

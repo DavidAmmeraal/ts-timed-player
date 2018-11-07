@@ -1,3 +1,7 @@
+/**
+ * selectors.ts
+ * Selectors for timer epic.
+ */
 import { TimerState } from './reducer';
 
 export const getRunning = (state: TimerState) => state.running;

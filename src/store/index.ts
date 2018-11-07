@@ -1,2 +1,6 @@
-export { default as rootReducer } from './reducer';
-export { default as configureStore } from './store';
+/**
+ * index.ts
+ * Exports for module.
+ */
+export { reducer as rootReducer } from './reducer';
+export { default as configureStore } from './configureStore';

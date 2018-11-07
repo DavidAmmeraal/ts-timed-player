@@ -1,3 +1,7 @@
+/**
+ * time.ts
+ * Time utils.
+ */
 import { curry } from 'ramda';
 const msInHour = 3.6e6;
 const msInMinute = 60000;

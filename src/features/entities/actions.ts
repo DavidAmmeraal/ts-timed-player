@@ -1,3 +1,7 @@
+/**
+ * actions.ts
+ * Action creators for entities actions.
+ */
 import { createAction } from 'typesafe-actions';
 import * as constants from './constants';
 import { Entity } from './models';
