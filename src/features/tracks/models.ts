@@ -2,9 +2,11 @@
  * models.ts
  * Contains track models.
  */
-import { Entity } from '../entities';
+import Types from 'Types';
 
-export interface ITrack extends Entity {
+export interface ITrack extends Types.EntityProps {
   start: Date;
   end: Date;
 }
+
+
