@@ -4,7 +4,7 @@
  */
 import { entitiesActions } from '../entities';
 import { TRACK_ENTITY_NAME } from './constants';
-import { ITrack } from './models';
+import { ITrack } from './entities';
 
 export const createTrackAction = (track: ITrack) => entitiesActions.createEntityAction(TRACK_ENTITY_NAME, track);
 export const updateTrackAction = (id: string, props: Partial<ITrack>) =>

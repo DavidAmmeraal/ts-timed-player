@@ -2,34 +2,29 @@
  * actions.ts
  * Action creators for entities actions.
  */
+import Types from 'Types';
 import { createAction } from 'typesafe-actions';
 import * as constants from './constants';
-import { Entity } from './models';
 
-export const createEntityAction = createAction(
-  constants.CREATE,
-  resolve => (entityType: string, entity: Entity) =>
-    resolve({
-      entityType,
-      entity,
-    }),
+export const createGenericEntityAction = createAction(
+  constants.CREATE_ENTITY,
+  resolve => (entity:Types.Entity) => resolve(entity),
 );
 
-export const updateEntityAction = createAction(
-  constants.UPDATE,
-  resolve => (entityType: string, id: string, props: {}) =>
-    resolve({
-      entityType,
-      id,
-      props,
-    }),
-);
+export const createEntityAction = <E extends Types.Entity = Types.Entity>(entity:E) => createGenericEntityAction(entity);
+
+export const updateGenericEntityAction = createAction(
+  constants.UPDATE_ENTITY,
+  resolve => (update:Types.EntityUpdate) => resolve(update),
+)
+
+export const updateEntityAction = <E extends Types.Entity = Types.Entity>(update:Types.EntityUpdate<E>) => updateGenericEntityAction(update);
 
 export const deleteEntityAction = createAction(
-  constants.DELETE,
-  resolve => (entityType: string, id: string) =>
+  constants.DELETE_ENTITY,
+  resolve => (type: string, id: string) =>
     resolve({
-      entityType,
+      type,
       id,
     }),
 );

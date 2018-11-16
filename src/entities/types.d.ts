@@ -1,20 +1,30 @@
-import { createEntityCreator } from './index';
+import { createEntityCreator, createEntityUpdateCreator } from './index';
+import { TrackEntity } from '../features/tracks';
 
 declare module 'Types' {
   export type EntityName = string;
+
   export interface EntityProps {
-    id: string;
-    [key: string]: any;
+    [key:string]: any,
   }
 
   export interface EntityPropsCreator<P extends EntityProps> {
-    (id: string, ...args: any): P;
+    (...args: any): P;
   }
 
-  export interface Entity<T extends EntityName, P extends EntityProps> {
-    type: T;
-    props: P;
+  export interface Entity<N extends EntityName = EntityName, P extends EntityProps = EntityProps> {
+    type: N,
+    id: string,
+    props: P,
   }
+
+  //If T extends an Entity, check it's keys, take the one that extends EntityProps and return a Partial type of that.  
+  export type EntityUpdate<T = Entity> = T extends Entity ? {[K in keyof T]: T[K] extends EntityProps ? Partial<T[K]> : never} : never;
+
   export type EntityCreator = ReturnType<typeof createEntityCreator>;
-  export type EntityType < T > = T extends EntityCreator ? ReturnType<T> : never;
+  export type EntityUpdateCreator = ReturnType<typeof createEntityUpdateCreator>;
+  //export type Entity = ReturnType<EntityCreator>
+  export type EntityType<T> = T extends EntityCreator ? ReturnType<T> : never;
+
+  export type RootEntity = TrackEntity;
 }

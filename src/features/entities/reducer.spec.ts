@@ -1,3 +1,4 @@
+import Types from 'Types';
 /**
  * reducer.spec.ts
  * Contains unit tests for entities reduce.
@@ -5,6 +6,8 @@
 import { reducer } from './reducer';
 import * as actions from './actions';
 import { EntitiesState } from './index';
+
+const createEntity = (type:string, props:Types.EntityProps) => ({ type, props });
 
 describe('models reducer', () => {
   let initialState:EntitiesState;
@@ -20,7 +23,7 @@ describe('models reducer', () => {
     it('should create a new entity of given type, and create a new type container if it does not exist.', () => {
       const id = '123';
       const entity = { id, foo: 'bar' };
-      const action = actions.createEntityAction('SuperCoolEntity', entity);
+      const action = actions.createEntityAction(createEntity('SuperCoolEntity', entity));
       const state = reducer(initialState, action);
       expect(state.SuperCoolEntity.byId).toHaveProperty(id, entity);
       expect(state.SuperCoolEntity.ids).toContain(id);
@@ -29,12 +32,12 @@ describe('models reducer', () => {
     it('should create a new entity of given type and add it to the existing type container.', () => {
       const idA = '123';
       const entityA = { id: idA, foo: 'bar' };
-      const actionA = actions.createEntityAction('SuperCoolEntity', entityA);
+      const actionA = actions.createEntityAction(createEntity('SuperCoolEntity', entityA));
       const state = reducer(initialState, actionA);
 
       const idB = '321';
       const entityB = { id: idB, bar: 'foo' };
-      const actionB = actions.createEntityAction('SuperCoolEntity', entityB);
+      const actionB = actions.createEntityAction(createEntity('SuperCoolEntity', entityB));
 
       const finalState = reducer(state, actionB);
       expect(finalState.SuperCoolEntity.byId).toHaveProperty(idA, entityA);
@@ -46,12 +49,12 @@ describe('models reducer', () => {
     it('should create a new entity of new type and add it next to other types.', () => {
       const superCoolId = '123';
       const superCoolEntity = { id: superCoolId, foo: 'bar' };
-      const superCoolAction = actions.createEntityAction('SuperCoolEntity', superCoolEntity);
+      const superCoolAction = actions.createEntityAction(createEntity('SuperCoolEntity', superCoolEntity));
       const state = reducer(initialState, superCoolAction);
 
       const superLameId = '432';
       const superLameEntity = { id: superLameId, bar: 'foo' };
-      const superLameAction = actions.createEntityAction('SuperLameEntity', superLameEntity);
+      const superLameAction = actions.createEntityAction(createEntity('SuperLameEntity', superLameEntity));
 
       const finalState = reducer(state, superLameAction);
       expect(finalState.SuperCoolEntity.byId).toHaveProperty(superCoolId, superCoolEntity);
@@ -64,11 +67,11 @@ describe('models reducer', () => {
     it('should overwrite existing entities of same type if it has same id.', () => {
       const id = '123';
       const entityA = { id, foo: 'bar', bar: 'foo' };
-      const actionA = actions.createEntityAction('SuperCoolEntity', entityA);
+      const actionA = actions.createEntityAction(createEntity('SuperCoolEntity', entityA));
       const state = reducer(initialState, actionA);
 
       const entityB = { id, foo: 'foo' };
-      const actionB = actions.createEntityAction('SuperCoolEntity', entityB);
+      const actionB = actions.createEntityAction(createEntity('SuperCoolEntity', entityB));
 
       const finalState = reducer(state, actionB);
       expect(finalState.SuperCoolEntity.byId).toHaveProperty(id, entityB);
@@ -83,9 +86,9 @@ describe('models reducer', () => {
     const entityB = { id: idB, foo: 'bar', bar: 'foo' };
 
     beforeEach(() => {
-      const createActionA = actions.createEntityAction('SuperCoolEntity', entityA);
+      const createActionA = actions.createEntityAction(createEntity('SuperCoolEntity', entityA));
       const stateA = reducer(initialState, createActionA);
-      const createActionB = actions.createEntityAction('SuperCoolEntity', entityB);
+      const createActionB = actions.createEntityAction(createEntity('SuperCoolEntity', entityB));
       state = reducer(stateA, createActionB);
     });
 
@@ -115,9 +118,9 @@ describe('models reducer', () => {
     const entityB = { id: idB, foo: 'bar', bar: 'foo' };
 
     beforeEach(() => {
-      const createActionA = actions.createEntityAction('SuperCoolEntity', entityA);
+      const createActionA = actions.createEntityAction(createEntity('SuperCoolEntity', entityA));
       const stateA = reducer(initialState, createActionA);
-      const createActionB = actions.createEntityAction('SuperCoolEntity', entityB);
+      const createActionB = actions.createEntityAction(createEntity('SuperCoolEntity', entityB));
       state = reducer(stateA, createActionB);
     });
 
