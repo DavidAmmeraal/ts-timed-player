@@ -2,11 +2,13 @@
  * actions.ts
  * Action creators for tracks actions.
  */
+import Types from 'Types';
 import { entitiesActions } from '../entities';
-import { TRACK_ENTITY_NAME } from './constants';
-import { ITrack } from './entities';
+import { Track } from './entities';
 
-export const createTrackAction = (track: ITrack) => entitiesActions.createEntityAction(TRACK_ENTITY_NAME, track);
-export const updateTrackAction = (id: string, props: Partial<ITrack>) =>
-    entitiesActions.updateEntityAction(TRACK_ENTITY_NAME, id, props);
-export const deleteTrackAction = (id: string) => entitiesActions.deleteEntityAction(TRACK_ENTITY_NAME, id);
+export const createTrackAction = ({id, entityType, props}: Track) =>
+    entitiesActions.createEntityAction(entityType, id, props);
+export const updateTrackAction = ({ id, entityType, props }: Types.EntityUpdate<Track>) =>
+    entitiesActions.updateEntityAction(id, entityType, props);
+
+export const deleteTrackAction = ({ id, entityType }: Track) => entitiesActions.deleteEntityAction(entityType, id);

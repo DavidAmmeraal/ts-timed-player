@@ -1,18 +1,18 @@
 /**
- * models.ts
+ * entities.ts
  * Contains track models.
  */
 import Types from 'Types';
-import { createEntityCreator } from '../../entities/index';
-import { TRACK_ENTITY_NAME } from './constants';
 
-export interface ITrack extends Types.EntityProps {
+export interface TrackProps extends Types.EntityProps {
   start: Date;
   end: Date;
 }
 
-export const createTrack = createEntityCreator(TRACK_ENTITY_NAME, (props:ITrack) => ({
-  ...props,
-}));
+export interface Track extends Types.Entity<'Track', TrackProps>{}
 
-export type TrackEntity = Types.EntityType<typeof createTrack>;
+export const createTrack = (id:string, props:TrackProps):Track => ({
+  entityType: 'Track',
+  id,
+  props,
+});

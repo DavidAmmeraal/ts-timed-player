@@ -1,4 +1,3 @@
-import Types from 'Types';
 /**
  * selectors.ts
  * Contains the selectors to get data from the entities state.
@@ -11,7 +10,7 @@ import { EntitiesState } from './reducer';
  *
  * @param entityType The name of the entity container.
  */
-export const createEntitiesContainerSelector = (type:Types.EntityName) =>
+export const createEntitiesContainerSelector = (entityType: string) =>
     createSelector((state: EntitiesState) => state[entityType], typeEntities => typeEntities);
 
 /**

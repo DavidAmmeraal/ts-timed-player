@@ -1,45 +1,50 @@
-import Types from 'Types';
 /**
  * actions.spec.ts
  * Unit tests entities action creators.
  */
 import * as actions from './actions';
-import * as constants from './constants';
-
-interface TestEntityProps extends Types.EntityProps {
-  foo: string,
-  bar: string,
-}
-
-type TestEntity = Types.Entity<'TestEntity', TestEntityProps>;
 
 describe('createEntityAction()', () => {
   it('should create a new CREATE action.', () => {
-    const props = { foo: 'bar', bar: 'foo' };
-    const id = '1';
-    const type = 'TestEntity'; 
-    const action = actions.createEntityAction<TestEntity>({type, id, props});
+    const props = { id: '1', foo: 'bar', bar: 'foo' };
+    const entityType = 'TestEntity';
+    const action = actions.createEntityAction(entityType, props);
     expect(action).toMatchObject({
-      type: constants.CREATE_ENTITY,
+      type: 'entities/CREATE_ENTITY',
       payload: {
-        id,
-        type,
+        entityType,
         props,
-      }
-    })
+      },
+    });
   });
 });
 
 describe('updateEntityAction()', () => {
   it('should create a new UPDATE action.', () => {
-    const action = actions.updateEntityAction<TestEntity>({type: 'TestEntity', id: '1', props: { bar: 'bar' }});
-    expect(action).toMatchSnapshot();
+    const props = { foo: 'foo', id: '1' };
+    const entityType = 'TestEntity';
+    const action = actions.updateEntityAction(entityType, props);
+    expect(action).toMatchObject({
+      type: 'entities/UPDATE_ENTITY',
+      payload: {
+        entityType,
+        props,
+      },
+    });
   });
 });
 
 describe('deleteEntityAction()', () => {
   it('should create a new DELETE action.', () => {
-    const action = actions.deleteEntityAction('X', '123');
-    expect(action).toMatchSnapshot();
+    const entityType = 'TestEntity';
+    const id = '123';
+    const action = actions.deleteEntityAction('TestEntity', '123');
+    expect(action).toMatchObject({
+      type: 'entities/DELETE_ENTITY',
+      payload: {
+        id,
+        entityType,
+      },
+    });
   });
 });

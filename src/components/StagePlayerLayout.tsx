@@ -15,4 +15,6 @@ const component: React.SFC<StagePlayerLayoutProps> = ({ children, className }) =
   </section>
 );
 
-export const StagePlayerLayout = styledComponents(component)``;
+export const StagePlayerLayout = styledComponents(component)`
+  background-color: black;
+`;

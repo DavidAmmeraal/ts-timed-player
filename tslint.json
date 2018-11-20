@@ -19,7 +19,7 @@
       [
         "~",
         "Types",
-        "dev",
+        "dev"
       ]
     ],
     "no-inferrable-types": [true, "ignore-params", "ignore-properties"],

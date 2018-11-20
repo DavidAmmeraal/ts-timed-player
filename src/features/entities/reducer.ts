@@ -19,28 +19,27 @@ import {
   without,
 } from 'ramda';
 import * as actions from './actions';
-import { CREATE, UPDATE, DELETE } from './constants';
 
 export type EntitiesAction = ActionType<typeof actions>;
 
-type CreateAction = ActionType<typeof actions.createGenericEntityAction>;
-type UpdateAction = ActionType<typeof actions.updateGenericEntityAction>;
+type CreateAction = ActionType<typeof actions.createEntityAction>;
+type UpdateAction = ActionType<typeof actions.updateEntityAction>;
 type DeleteAction = ActionType<typeof actions.deleteEntityAction>;
 
 export type EntitiesState = {
-  [key:string]: EntitiesContainer,
-}
+  [key:string]: EntitiesContainer;
+};
 
 export type EntitiesContainer = {
-  ids: string[],
+  ids: string[];
   byId: {
-    [key: string]: Types.EntityProps
-  }
-} 
+    [key: string]: Types.EntityProps;
+  };
+};
 
 export const defaultState: EntitiesState = {};
 const createEntitiesContainer = (): EntitiesContainer => ({
-  ids: new Array<string>(),
+  ids: [],
   byId: {},
 });
 
@@ -52,10 +51,13 @@ const createEntitiesContainer = (): EntitiesContainer => ({
  * @param action entities/CREATE action to be handled.
  * @returns new state.
  */
-const handleCreate = (state: EntitiesState, { payload: { type, props } }: CreateAction) => pipe<EntitiesState, EntitiesState, EntitiesState, EntitiesState>(
-  unless(has(type), set(lensProp(type), createEntitiesContainer())),
-  set(lensPath([type, 'byId', props.id]), type),
-  over(lensPath([type, 'ids']), union([props.id])),
+const handleCreate = (
+  state: EntitiesState,
+  { payload: { entityType, props } }: CreateAction
+) => pipe<EntitiesState, EntitiesState, EntitiesState, EntitiesState>(
+  unless(has(entityType), set(lensProp(entityType), createEntitiesContainer())),
+  set(lensPath([entityType, 'byId', props.id]), props),
+  over(lensPath([entityType, 'ids']), union([props.id])),
 )(state);
 
 /**
@@ -68,11 +70,11 @@ const handleCreate = (state: EntitiesState, { payload: { type, props } }: Create
  */
 const handleUpdate = (
   state: EntitiesState,
-  { payload: { type, id, props } }: UpdateAction,
+  { payload: { entityType, props } }: UpdateAction,
 ) => pipe<EntitiesState, EntitiesState>(
   when(
-    view(lensPath([type, 'byId', id])),
-    over(lensPath([type, 'byId', id]), existing => ({ ...existing, ...props })),
+    view(lensPath([entityType, 'byId', props.id])),
+    over(lensPath([entityType, 'byId', props.id]), existing => ({ ...existing, ...props })),
   ),
 )(state);
 
@@ -82,9 +84,11 @@ const handleUpdate = (
  * @param state Base state.
  * @param action Entities/DELETE action to be handled.
  */
-const handleDelete = (state: EntitiesState, { payload: { type, id } }: DeleteAction) => pipe<EntitiesState, EntitiesState, EntitiesState>(
-  over(lensPath([type, 'byId']), dissoc(id)),
-  over(lensPath([type, 'ids']), without([id])),
+const handleDelete = (
+  state: EntitiesState, { payload: { entityType, id } }: DeleteAction
+) => pipe<EntitiesState, EntitiesState, EntitiesState>(
+  over(lensPath([entityType, 'byId']), dissoc(id)),
+  over(lensPath([entityType, 'ids']), without([id]))
 )(state);
 
 /**
@@ -95,11 +99,11 @@ const handleDelete = (state: EntitiesState, { payload: { type, id } }: DeleteAct
  */
 export const reducer = (state: EntitiesState = defaultState, action: Types.RootAction) => {
   switch (action.type) {
-    case CREATE:
+    case 'entities/CREATE_ENTITY':
       return handleCreate(state, action);
-    case UPDATE:
+    case 'entities/UPDATE_ENTITY':
       return handleUpdate(state, action);
-    case DELETE:
+    case 'entities/DELETE_ENTITY':
       return handleDelete(state, action);
     default:
       return state;

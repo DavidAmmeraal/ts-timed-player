@@ -2,19 +2,19 @@
  * selectors.spec.ts
  * Unit tests for selectors.
  */
-import { createEntitiesContainerSelector, createEntitySelector } from './selectors';
-import { reducer } from './reducer';
+import { createEntitiesContainerSelector, createEntitySelector, createAllEntitiesSelector } from './selectors';
+import { reducer, EntitiesState } from './reducer';
 import { deleteEntityAction, updateEntityAction } from './actions';
 
-const state = {
+const state:EntitiesState = {
   Foo: {
     ids: ['1', '2'],
     byId: {
-      1: {
+      '1': {
         id: '1',
         foo: 'bar',
       },
-      2: {
+      '2': {
         id: '2',
         foo: 'foo',
       },
@@ -23,7 +23,7 @@ const state = {
   Bar: {
     ids: ['1'],
     byId: {
-      1: {
+      '1': {
         id: '1',
         bar: 'foo',
       },
@@ -72,7 +72,7 @@ describe('createEntitySelector()', () => {
   });
 
   it('should not recalculate if state of entity has not changed', () => {
-    const updateAction = updateEntityAction('Foo', '2', { foo: 'bar' });
+    const updateAction = updateEntityAction('Bar', { id: '1', bar: 'bar' });
     const selector = createEntitySelector('Foo', '1');
     selector(state);
     expect(selector.recomputations()).toBe(1);
@@ -82,7 +82,7 @@ describe('createEntitySelector()', () => {
   });
 
   it('should recalculate if state of entity has changed, and retrieve the updated entity', () => {
-    const updateAction = updateEntityAction('Foo', '1', { foo: 'foo' });
+    const updateAction = updateEntityAction('Foo', { id: '1', foo: 'foo' });
     const expectedUpdatedEntity = { id: '1', foo: 'foo' };
     const selector = createEntitySelector('Foo', '1');
     selector(state);
@@ -90,6 +90,36 @@ describe('createEntitySelector()', () => {
     const newState = reducer(state, updateAction);
     const result = selector(newState);
     expect(result).toEqual(expectedUpdatedEntity);
+    expect(selector.recomputations()).toBe(2);
+  });
+});
+
+describe('createAllEntitiesSelector()', () => {
+  it('should retrieve an array of all entities ordered by ids.', () => {
+    const selector = createAllEntitiesSelector('Foo');
+    expect(selector(state)).toEqual(state.Foo.ids.map(id => state.Foo.byId[id]));
+  });
+
+  it('should not recalculate if state of entities has not changed', () => {
+    const updateAction = updateEntityAction('Bar', { id: '1', bar: 'bar' });
+    const selector = createAllEntitiesSelector('Foo');
+    selector(state);
+    expect(selector.recomputations()).toBe(1);
+    const newState = reducer(state, updateAction);
+    selector(newState);
+    expect(selector.recomputations()).toBe(1);
+  });
+
+  it('should recalculate if state if entities have changed, and retrieve a list of all entities ordered by id', () => {
+    const props = { id: '1', foo: 'foo' };
+    const updateAction = updateEntityAction('Foo', props);
+    const expectedUpdatedEntities = [props, state.Foo.byId['2']];
+    const selector = createAllEntitiesSelector('Foo');
+    selector(state);
+    expect(selector.recomputations()).toBe(1);
+    const newState = reducer(state, updateAction);
+    const result = selector(newState);
+    expect(result).toEqual(expectedUpdatedEntities);
     expect(selector.recomputations()).toBe(2);
   });
 });

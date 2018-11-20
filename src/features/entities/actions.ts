@@ -4,27 +4,21 @@
  */
 import Types from 'Types';
 import { createAction } from 'typesafe-actions';
-import * as constants from './constants';
 
-export const createGenericEntityAction = createAction(
-  constants.CREATE_ENTITY,
-  resolve => (entity:Types.Entity) => resolve(entity),
+export const createEntityAction = createAction('entities/CREATE_ENTITY',
+  resolve => (entityType:string, props: Types.EntityProps) => resolve({
+    entityType, props,
+  }),
 );
 
-export const createEntityAction = <E extends Types.Entity = Types.Entity>(entity:E) => createGenericEntityAction(entity);
+export const updateEntityAction = createAction('entities/UPDATE_ENTITY',
+  resolve => (entityType:string, props: Types.EntityProps) => resolve({
+    entityType, props,
+  }),
+);
 
-export const updateGenericEntityAction = createAction(
-  constants.UPDATE_ENTITY,
-  resolve => (update:Types.EntityUpdate) => resolve(update),
-)
-
-export const updateEntityAction = <E extends Types.Entity = Types.Entity>(update:Types.EntityUpdate<E>) => updateGenericEntityAction(update);
-
-export const deleteEntityAction = createAction(
-  constants.DELETE_ENTITY,
-  resolve => (type: string, id: string) =>
-    resolve({
-      type,
-      id,
-    }),
+export const deleteEntityAction = createAction('entities/DELETE_ENTITY',
+  resolve => (entityType:string, id: string) => resolve({
+    entityType, id,
+  }),
 );
