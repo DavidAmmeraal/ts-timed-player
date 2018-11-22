@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
-import { configureStore } from '~/store/configureStore';
+import { configureStore } from '../store/configureStore';
 
 import { StagePlayerLayout } from './StagePlayerLayout';
 import { StagePlayerError } from './StagePlayerError';

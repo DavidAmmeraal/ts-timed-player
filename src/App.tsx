@@ -1,7 +1,10 @@
+/**
+ * App.tsx
+ */
 import * as React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { StagePlayer } from './components/StagePlayer';
-import { fetchStage } from './fetch-stage';
+import { fetchStage } from './fetchStage';
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -10,11 +13,9 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }`;
 
-const App: React.SFC = () => (
+export const App: React.SFC = () => (
   <StagePlayer stage={fetchStage}>
     <GlobalStyle />
     <span>A stageplayer child!</span>
   </StagePlayer>
 );
-
-export default App;

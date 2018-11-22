@@ -14,14 +14,7 @@
     "no-any": false,
     "no-empty-interface": false,
     "no-import-side-effect": [true],
-    "no-implicit-dependencies": [
-      true,
-      [
-        "~",
-        "Types",
-        "dev"
-      ]
-    ],
+    "no-implicit-dependencies":  [true, "dev"],
     "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
     "no-invalid-this": [true, "check-function-in-method"],
     "no-namespace": false,

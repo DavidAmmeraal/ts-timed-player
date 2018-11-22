@@ -1,23 +1,24 @@
+/* eslint-disable import/no-extraneous-dependencies */
 // Global/Window object Stubs for Jest
-import fetch from 'node-fetch';
-window.matchMedia = window.matchMedia || function () {
-  return {
-    matches: false,
-    addListener: function () { },
-    removeListener: function () { },
+window.matchMedia = window.matchMedia
+  || function () {
+    return {
+      matches: false,
+      addListener() {},
+      removeListener() {},
+    };
   };
-};
 
 window.requestAnimationFrame = function (callback) {
   setTimeout(callback);
 };
 
 window.localStorage = {
-  getItem: function () { },
-  setItem: function () { },
+  getItem() {},
+  setItem() {},
 };
 
 Object.values = () => [];
 
 process.env = {};
-global.fetch = fetch;
+global.fetch = require('jest-fetch-mock');

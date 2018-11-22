@@ -10,7 +10,7 @@ import * as actions from './actions';
 import { toggleFlow } from './epics';
 import * as services from '../../services';
 
-import { reducer } from '~/store/reducer';
+import { reducer } from '../../store/reducer';
 
 const createTestScheduler = () => new TestScheduler((actual, expected: () => any) => {
   expect(actual).toEqual(expected);
