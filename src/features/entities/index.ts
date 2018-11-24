@@ -5,6 +5,4 @@
 import * as entitiesActions from './actions';
 import { reducer as entitiesReducer, EntitiesAction, EntitiesState } from './reducer';
 
-export {
-  entitiesActions, entitiesReducer, EntitiesAction, EntitiesState,
-};
+export { entitiesActions, entitiesReducer, EntitiesAction, EntitiesState };

@@ -25,9 +25,18 @@ export const createAllEntitiesSelector = (entityType: string) =>
     );
 
 /**
- *
- * @param entityType The name of the entity container.
- * @param id The id of the entity that should be retrieved.
+ * Creates a memoized selector an entity by Id. If either the return value of the id selector,
+ * or the entity associated with the returned id changes, a new value will be recomputed.
+ * @param entityType The name of the entity type.
+ * @param idSelector Returns the id of the entity to be retrieved.
  */
-export const createEntitySelector = (entityType: string, id: string) =>
-    createSelector((state: EntitiesState) => state[entityType].byId[id], entity => entity);
+export const createEntitySelector =
+    <P = any>(entityType: string, idSelector: (state:EntitiesState, props:P) => string) => {
+    return createSelector(
+        (s:EntitiesState, p:P) => {
+            const id = idSelector(s, p);
+            return s[entityType].byId[id];
+        },
+        (entity) => entity,
+    );
+};

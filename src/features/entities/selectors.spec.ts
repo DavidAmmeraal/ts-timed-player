@@ -5,6 +5,7 @@
 import { createEntitiesContainerSelector, createEntitySelector, createAllEntitiesSelector } from './selectors';
 import { reducer, EntitiesState } from './reducer';
 import { deleteEntityAction, updateEntityAction } from './actions';
+import { mergeDeepRight } from 'ramda';
 
 const state:EntitiesState = {
   Foo: {
@@ -65,32 +66,48 @@ describe('createEntitiesContainerSelector()', () => {
 });
 
 describe('createEntitySelector()', () => {
-  it('should select an entity of given type and id', () => {
-    const entity = state.Foo.byId['1'];
-    const selector = createEntitySelector('Foo', '1');
-    expect(selector(state)).toBe(entity);
+  type PropsType = { id: string };
+  const createSelector = () => createEntitySelector('Foo', (s, props: PropsType) => props.id);
+
+  let selector:ReturnType<typeof createSelector>;
+  beforeEach(() => {
+    selector = createSelector();
   });
 
-  it('should not recalculate if state of entity has not changed', () => {
-    const updateAction = updateEntityAction('Bar', { id: '1', bar: 'bar' });
-    const selector = createEntitySelector('Foo', '1');
-    selector(state);
-    expect(selector.recomputations()).toBe(1);
-    const newState = reducer(state, updateAction);
-    selector(newState);
-    expect(selector.recomputations()).toBe(1);
+  describe('when trying to get an entity with an existing id', () => {
+
+    const inputProps = { id: '1' };
+
+    it('should return the matching entity', () => {
+      const expected = state.Foo.byId['1'];
+      expect(selector(state, inputProps)).toBe(expected);
+    });
+
+    it('should not recalculate if entity with id has not changed', () => {
+      selector(state, inputProps);
+      expect(selector.recomputations()).toBe(1);
+      const newState = mergeDeepRight(state, { Foo: { byId: { '2': { foo: 'bar'}}}});
+      selector(newState, inputProps);
+      expect(selector.recomputations()).toBe(1);
+    });
+
+    it('should recalculate if entity with id has changed', () => {
+      selector(state, inputProps);
+      expect(selector.recomputations()).toBe(1);
+      const newState = mergeDeepRight(state, { Foo: { byId: { '1': { foo: 'foo' } } } });
+      selector(newState, inputProps);
+      expect(selector.recomputations()).toBe(2);
+    });
   });
 
-  it('should recalculate if state of entity has changed, and retrieve the updated entity', () => {
-    const updateAction = updateEntityAction('Foo', { id: '1', foo: 'foo' });
-    const expectedUpdatedEntity = { id: '1', foo: 'foo' };
-    const selector = createEntitySelector('Foo', '1');
-    selector(state);
-    expect(selector.recomputations()).toBe(1);
-    const newState = reducer(state, updateAction);
-    const result = selector(newState);
-    expect(result).toEqual(expectedUpdatedEntity);
-    expect(selector.recomputations()).toBe(2);
+  describe('when trying to get an entity with a non-existing id', () => {
+
+    const inputProps = { id: '3' };
+
+    it('should return undefined', () => {
+      expect(selector(state, inputProps)).toBe(undefined);
+    });
+
   });
 });
 

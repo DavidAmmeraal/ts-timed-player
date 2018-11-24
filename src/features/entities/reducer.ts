@@ -27,7 +27,7 @@ type UpdateAction = ActionType<typeof actions.updateEntityAction>;
 type DeleteAction = ActionType<typeof actions.deleteEntityAction>;
 
 export type EntitiesState = {
-  [key:string]: EntitiesContainer;
+  [key: string]: EntitiesContainer;
 };
 
 export type EntitiesContainer = {
@@ -51,14 +51,12 @@ const createEntitiesContainer = (): EntitiesContainer => ({
  * @param action entities/CREATE action to be handled.
  * @returns new state.
  */
-const handleCreate = (
-  state: EntitiesState,
-  { payload: { entityType, props } }: CreateAction
-) => pipe<EntitiesState, EntitiesState, EntitiesState, EntitiesState>(
-  unless(has(entityType), set(lensProp(entityType), createEntitiesContainer())),
-  set(lensPath([entityType, 'byId', props.id]), props),
-  over(lensPath([entityType, 'ids']), union([props.id])),
-)(state);
+const handleCreate = (state: EntitiesState, { payload: { entityType, props } }: CreateAction) =>
+  pipe<EntitiesState, EntitiesState, EntitiesState, EntitiesState>(
+    unless(has(entityType), set(lensProp(entityType), createEntitiesContainer())),
+    set(lensPath([entityType, 'byId', props.id]), props),
+    over(lensPath([entityType, 'ids']), union([props.id])),
+  )(state);
 
 /**
  * Handles entities/UPDATE actions. Updates (shallow merge) an entity with given id.
@@ -68,15 +66,13 @@ const handleCreate = (
  * @param action entities/UPDATE action to be handled.
  * @returns new state.
  */
-const handleUpdate = (
-  state: EntitiesState,
-  { payload: { entityType, props } }: UpdateAction,
-) => pipe<EntitiesState, EntitiesState>(
-  when(
-    view(lensPath([entityType, 'byId', props.id])),
-    over(lensPath([entityType, 'byId', props.id]), existing => ({ ...existing, ...props })),
-  ),
-)(state);
+const handleUpdate = (state: EntitiesState, { payload: { entityType, props } }: UpdateAction) =>
+  pipe<EntitiesState, EntitiesState>(
+    when(
+      view(lensPath([entityType, 'byId', props.id])),
+      over(lensPath([entityType, 'byId', props.id]), existing => ({ ...existing, ...props })),
+    ),
+  )(state);
 
 /**
  * Handles entities/DELETE actions. Deletes an entity with id.
@@ -84,12 +80,11 @@ const handleUpdate = (
  * @param state Base state.
  * @param action Entities/DELETE action to be handled.
  */
-const handleDelete = (
-  state: EntitiesState, { payload: { entityType, id } }: DeleteAction
-) => pipe<EntitiesState, EntitiesState, EntitiesState>(
-  over(lensPath([entityType, 'byId']), dissoc(id)),
-  over(lensPath([entityType, 'ids']), without([id]))
-)(state);
+const handleDelete = (state: EntitiesState, { payload: { entityType, id } }: DeleteAction) =>
+  pipe<EntitiesState, EntitiesState, EntitiesState>(
+    over(lensPath([entityType, 'byId']), dissoc(id)),
+    over(lensPath([entityType, 'ids']), without([id])),
+  )(state);
 
 /**
  * Handles and reduces actions into state.
