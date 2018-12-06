@@ -10,6 +10,8 @@ import { configureStore } from '../store/configureStore';
 
 import { StagePlayerLayout } from './StagePlayerLayout';
 import { StagePlayerError } from './StagePlayerError';
+import { ConnectedTimeDisplay } from './ConnectedTimeDisplay';
+import { ToggleRunButton } from './ToggleRunButton';
 
 interface IStagePlayerProps {
   stage: () => Promise<{}>;
@@ -46,7 +48,10 @@ export class StagePlayer extends React.Component<IStagePlayerProps, IStagePlayer
     if (this.state.store) {
       return (
         <Provider store={this.state.store}>
-          <StagePlayerLayout {...this.props} />
+          <StagePlayerLayout {...this.props}>
+            <ConnectedTimeDisplay />
+            <ToggleRunButton />
+          </StagePlayerLayout>
         </Provider>
       );
     }

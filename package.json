@@ -72,7 +72,7 @@
     "@types/react-redux": "^6.0.9",
     "@types/styled-components": "^4.0.3",
     "@types/webpack-env": "^1.13.6",
-    "date-fns": "^2.0.0-alpha.23",
+    "date-fns": "^2.0.0-alpha.25",
     "immutable": "^3.8.2",
     "lodash": "^4.17.11",
     "numeral": "^2.0.6",

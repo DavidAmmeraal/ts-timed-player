@@ -1,7 +1,10 @@
+/**
+ * selectors.spec.ts
+ */
 import { reducer } from './reducer';
 import * as selectors from './selectors';
 
-const initialState = reducer(undefined, {} as any);
+const initialState = reducer(undefined, <any>{});
 
 describe('selectors', () => {
   it('running selector should return running', () => {
@@ -24,13 +27,26 @@ describe('selectors', () => {
     expect(selectors.getRate(state)).toBe(rate);
   });
 
-  it('time selector should return time', () => {
-    const time = initialState.time + 3.12;
-    const state = {
-      ...initialState,
-      time,
-    };
+  describe('time selectors', () => {
+    const time = 1234567;
+    const state = { ...initialState, time };
 
-    expect(selectors.getTimeMs(state)).toBe(time);
+    describe('getTimeMicro()', () => {
+      it('should return time in microseconds', () => {
+        expect(selectors.getTimeMicro(state)).toBe(time);
+      });
+    });
+
+    describe('getTimeMilli()', () => {
+      it('should return time in milliseconds', () => {
+        expect(selectors.getTimeMilli(state)).toBe(time / 1000);
+      });
+    });
+
+    describe('getTimeSeconds()', () => {
+      it('should return time in milliseconds', () => {
+        expect(selectors.getTimeSecs(state)).toBe(time / 1000 / 1000);
+      });
+    });
   });
 });

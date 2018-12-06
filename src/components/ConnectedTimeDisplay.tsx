@@ -9,7 +9,7 @@ import { timerSelectors } from '../features/timer';
 import { TimeDisplay } from './TimeDisplay';
 
 const mapStateToProps = (state: Types.RootState) => ({
-  time: timerSelectors.getTimeMs(state.timer),
+  time: timerSelectors.getTimeMilli(state.timer),
 });
 
 export const ConnectedTimeDisplay = connect(mapStateToProps)(TimeDisplay);

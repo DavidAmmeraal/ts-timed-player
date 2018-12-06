@@ -1,9 +1,9 @@
+import Types, { EntityProps } from 'Types';
 /**
  * selectors.ts
  * Contains the selectors to get data from the entities state.
  */
 import { createSelector } from 'reselect';
-import { EntitiesState } from './reducer';
 
 /**
  * Selects the entities container for a given entity type.
@@ -11,7 +11,7 @@ import { EntitiesState } from './reducer';
  * @param entityType The name of the entity container.
  */
 export const createEntitiesContainerSelector = (entityType: string) =>
-    createSelector((state: EntitiesState) => state[entityType], typeEntities => typeEntities);
+    createSelector((state: Types.RootState) => state.entities[entityType], typeEntities => typeEntities);
 
 /**
  * Selects all the entities of a given entity type as an array, ordered by the array of ids in the EntityContainer.
@@ -21,7 +21,7 @@ export const createEntitiesContainerSelector = (entityType: string) =>
 export const createAllEntitiesSelector = (entityType: string) =>
     createSelector(
         createEntitiesContainerSelector(entityType),
-        entitiesContainer => entitiesContainer.ids.map(id => entitiesContainer.byId[id])
+        entitiesContainer => entitiesContainer ? entitiesContainer.ids.map(id => entitiesContainer.byId[id]) : []
     );
 
 /**
@@ -31,12 +31,10 @@ export const createAllEntitiesSelector = (entityType: string) =>
  * @param idSelector Returns the id of the entity to be retrieved.
  */
 export const createEntitySelector =
-    <P = any>(entityType: string, idSelector: (state:EntitiesState, props:P) => string) => {
-    return createSelector(
-        (s:EntitiesState, p:P) => {
+    <P = any, O extends EntityProps = EntityProps>
+    (entityType: string, idSelector: (state:Types.RootState, props:P) => string) => {
+        return createSelector((s: Types.RootState, p: P) => {
             const id = idSelector(s, p);
-            return s[entityType].byId[id];
-        },
-        (entity) => entity,
-    );
-};
+            return s.entities[entityType].byId[id];
+        }, (entity) => <O>entity);
+    };

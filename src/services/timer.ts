@@ -5,9 +5,11 @@
 import { map, pairwise } from 'rxjs/operators';
 import { timer as timerRxjs, animationFrameScheduler, Scheduler } from 'rxjs';
 
+const hrTimeProvider = () => Math.floor(performance.now() * 1000);
+
 export const timer = (
   interval: number,
-  timeProvider: (...args: any[]) => number = () => performance.now(),
+  timeProvider: (...args: any[]) => number = hrTimeProvider,
   scheduler: Scheduler = animationFrameScheduler,
 ) =>
   timerRxjs(0, interval, scheduler).pipe(

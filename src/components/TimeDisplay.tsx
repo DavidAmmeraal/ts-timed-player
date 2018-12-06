@@ -9,4 +9,6 @@ interface ITimeDisplayProps {
   time: number;
 }
 
-export const TimeDisplay: React.SFC<ITimeDisplayProps> = ({ time }) => <>{formatToTimerTime(time)}</>;
+export const TimeDisplay: React.SFC<ITimeDisplayProps> = ({ time }) => (
+  <>{formatToTimerTime(time)}</>
+);

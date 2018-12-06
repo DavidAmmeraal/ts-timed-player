@@ -7,9 +7,7 @@ import { Epic, ofType, combineEpics } from 'redux-observable';
 import { switchMap, map, takeUntil, filter } from 'rxjs/operators';
 
 import { tick } from './actions';
-import { TOGGLE } from './constants';
-
-const INTERVAL = 10;
+import { TOGGLE, TIMER_TICK_INTERVAL } from './constants';
 
 export const toggleFlow: Epic<
   Types.RootAction,
@@ -17,7 +15,7 @@ export const toggleFlow: Epic<
   Types.RootState,
   Types.Services
 > = (action$, store$, { timer }) => {
-  const timer$ = timer(INTERVAL).pipe(
+  const timer$ = timer(TIMER_TICK_INTERVAL).pipe(
     takeUntil(
       action$.pipe(
         // Take times until next TOGGLE
